@@ -3,6 +3,7 @@ package com.mhassaniqbal22.gchat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mhassaniqbal22.gchat.R;
@@ -202,12 +204,23 @@ public class SignUpActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             Toast.makeText(SignUpActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
                         } else {
+                            updateUser();
                             Toast.makeText(SignUpActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
                             writeUserOnDb();
                         }
                     }
                 });
 
+    }
+
+    private void updateUser() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .setPhotoUri(Uri.parse(""))
+                .build();
+        firebaseUser.updateProfile(profileChangeRequest);
     }
 
     private void startMainActivity() {
@@ -228,12 +241,9 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResponse(String s) {
                         if (s.isEmpty()) {
                             databaseReference.child(firebaseUser.getUid()).child("id").setValue(firebaseUser.getUid());
-                            databaseReference.child(firebaseUser.getUid()).child("name").setValue(name);
-                            databaseReference.child(firebaseUser.getUid()).child("email").setValue(email);
-                            databaseReference.child(firebaseUser.getUid()).child("picture").setValue("");
-                            databaseReference.child(firebaseUser.getUid()).child("message").setValue("");
-                            databaseReference.child(firebaseUser.getUid()).child("timestamp").setValue("");
-                            databaseReference.child(firebaseUser.getUid()).child("isRead").setValue("");
+                            databaseReference.child(firebaseUser.getUid()).child("name").setValue(firebaseUser.getDisplayName());
+                            databaseReference.child(firebaseUser.getUid()).child("email").setValue(firebaseUser.getEmail());
+                            databaseReference.child(firebaseUser.getUid()).child("picture").setValue(firebaseUser.getPhotoUrl());
 
                         } else {
                             JSONObject object = new JSONObject();
@@ -242,9 +252,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 databaseReference.child(firebaseUser.getUid()).child("name").setValue(name);
                                 databaseReference.child(firebaseUser.getUid()).child("email").setValue(email);
                                 databaseReference.child(firebaseUser.getUid()).child("picture").setValue("");
-                                databaseReference.child(firebaseUser.getUid()).child("message").setValue("");
-                                databaseReference.child(firebaseUser.getUid()).child("timestamp").setValue("");
-                                databaseReference.child(firebaseUser.getUid()).child("isRead").setValue("");
                             } else {
                                 Toast.makeText(SignUpActivity.this, "User Already Exist", Toast.LENGTH_SHORT).show();
                             }
