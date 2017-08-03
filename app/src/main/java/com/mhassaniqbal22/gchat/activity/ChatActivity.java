@@ -32,15 +32,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mhassaniqbal22.gchat.R;
 import com.mhassaniqbal22.gchat.model.Message;
-import com.mhassaniqbal22.gchat.preferences.CodelabPreferences;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,7 +46,6 @@ public class ChatActivity extends AppCompatActivity {
 
     public static final String MESSAGES_CHILD = "messages";
     public static final String ANONYMOUS = "anonymous";
-    public static final int DEFAULT_MSG_LENGTH_LIMIT = 100;
     private static final int REQUEST_IMAGE = 2;
     private static final String MESSAGE_SENT_EVENT = "message_sent";
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
@@ -70,7 +66,8 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
 
 
-    private String uid;
+    private String title;
+    private String endPoint;
     private String username;
     private String photoUrl;
 
@@ -88,7 +85,8 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
+        title = intent.getStringExtra("title");
+        endPoint = intent.getStringExtra("endPoint");
         getSupportActionBar().setTitle(title);
         Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -118,7 +116,7 @@ public class ChatActivity extends AppCompatActivity {
                 Message.class,
                 R.layout.item_message,
                 MessageViewHolder.class,
-                databaseReference.child(MESSAGES_CHILD)) {
+                databaseReference.child(MESSAGES_CHILD).child(endPoint).child(title)) {
 
             @Override
             protected Message parseSnapshot(DataSnapshot snapshot) {
@@ -199,8 +197,6 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(firebaseAdapter);
 
         inputMessage = findViewById(R.id.input_message);
-        inputMessage.setFilters(new InputFilter[]{new InputFilter.LengthFilter(sharedPreferences
-                .getInt(CodelabPreferences.MSG_LENGTH, DEFAULT_MSG_LENGTH_LIMIT))});
         inputMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -237,7 +233,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Message message = new Message(inputMessage.getText().toString(), username,
                         photoUrl, null);
-                databaseReference.child(MESSAGES_CHILD).push().setValue(message);
+                databaseReference.child(MESSAGES_CHILD).child(endPoint).child(title).push().setValue(message);
                 inputMessage.setText("");
             }
         });

@@ -160,6 +160,7 @@ public class GroupFragment extends Fragment implements RecyclerAdapter.RecyclerA
 
             Intent intent = new Intent(getActivity(), ChatActivity.class);
             intent.putExtra("title", room.getTitle());
+            intent.putExtra("endPoint", "groups");
             startActivity(intent);
         }
     }

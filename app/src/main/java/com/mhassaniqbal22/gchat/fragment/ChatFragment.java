@@ -158,9 +158,10 @@ public class ChatFragment extends Fragment implements RecyclerAdapter.RecyclerAd
             rooms.set(position, room);
             adapter.notifyDataSetChanged();
 
-            Intent intent = new Intent(getActivity(), ChatActivity.class);
-            intent.putExtra("title", room.getTitle());
-            startActivity(intent);
+            Toast.makeText(getActivity(), room.getTitle(), Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(getActivity(), ChatActivity.class);
+//            intent.putExtra("title", room.getTitle());
+//            startActivity(intent);
         }
     }
 
