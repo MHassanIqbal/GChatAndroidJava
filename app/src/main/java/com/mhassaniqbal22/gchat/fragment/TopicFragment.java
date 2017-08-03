@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -35,14 +36,14 @@ import retrofit2.http.GET;
 
 public class TopicFragment extends Fragment implements RecyclerAdapter.RecyclerAdapterListener {
 
-    RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
-    RecyclerAdapter adapter;
-    List<ChatRoom> rooms = new ArrayList<>();
-    ActionModeCallback actionModeCallback;
-    ActionMode actionMode;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerAdapter adapter;
+    private List<ChatRoom> rooms = new ArrayList<>();
+    protected ActionModeCallback actionModeCallback;
+    private ActionMode actionMode;
 
-    public TopicFragment(){
+    public TopicFragment() {
         //empty constructor
     }
 
@@ -210,6 +211,11 @@ public class TopicFragment extends Fragment implements RecyclerAdapter.RecyclerA
     }
 
     private class ActionModeCallback implements ActionMode.Callback {
+
+        public ActionModeCallback() {
+            //empty constructor
+        }
+
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.menu_action_mode, menu);

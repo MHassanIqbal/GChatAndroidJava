@@ -156,6 +156,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.imgProfile.setImageResource(R.drawable.bg_circle);
+//            holder.imgProfile.setColorFilter(room.getColor());
             holder.imgProfile.setColorFilter(room.getColor());
             holder.iconText.setVisibility(View.VISIBLE);
         }
