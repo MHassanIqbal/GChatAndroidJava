@@ -26,7 +26,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private EditText etEmail, etPass;
     private CheckBox cbShowPass;
-    private Button btSignIn, btRegister;
+    private Button btSignIn;
 
     private String email, pass;
 
@@ -43,7 +43,6 @@ public class SignInActivity extends AppCompatActivity {
         etPass = findViewById(R.id.et_pass);
         cbShowPass = findViewById(R.id.cb_show_pass);
         btSignIn = findViewById(R.id.bt_sign_in);
-        btRegister = findViewById(R.id.bt_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -58,13 +57,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        btRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
-                finish();
-            }
-        });
 
         btSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
