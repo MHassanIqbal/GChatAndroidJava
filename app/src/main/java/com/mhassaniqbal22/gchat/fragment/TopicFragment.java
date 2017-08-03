@@ -1,11 +1,11 @@
 package com.mhassaniqbal22.gchat.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mhassaniqbal22.gchat.R;
+import com.mhassaniqbal22.gchat.activity.ChatActivity;
 import com.mhassaniqbal22.gchat.adapter.RecyclerAdapter;
 import com.mhassaniqbal22.gchat.helper.DividerItemDecoration;
 import com.mhassaniqbal22.gchat.model.ChatRoom;
@@ -157,11 +158,9 @@ public class TopicFragment extends Fragment implements RecyclerAdapter.RecyclerA
             rooms.set(position, room);
             adapter.notifyDataSetChanged();
 
-//            Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
-//            intent.putExtra("from", message.getFrom());
-//            intent.putExtra("chatWithUserId", message.getId());
-//            startActivity(intent);
-            Toast.makeText(getContext(), "Read: " + room.getMessage(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            intent.putExtra("title", room.getTitle());
+            startActivity(intent);
         }
     }
 
