@@ -10,4 +10,10 @@
         android:title="@string/action_info"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="@string/action_info"
+        app:showAsAction="always" />
+
 </menu>
