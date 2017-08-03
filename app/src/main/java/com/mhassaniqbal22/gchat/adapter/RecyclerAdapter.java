@@ -43,7 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title, creator, message, timestamp, iconText;
+        TextView title, message, timestamp, iconText;
         ImageView imgProfile;
         LinearLayout messageContainer;
         RelativeLayout iconContainer, iconBack, iconFront;
@@ -53,7 +53,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.txt_title);
-            creator = itemView.findViewById(R.id.txt_creator);
             message = itemView.findViewById(R.id.txt_message);
             iconText = itemView.findViewById(R.id.icon_text);
             timestamp = itemView.findViewById(R.id.timestamp);
@@ -95,7 +94,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         // displaying text view data
         holder.title.setText(room.getTitle());
-        holder.creator.setText(room.getCreator());
         holder.message.setText(room.getMessage());
         holder.timestamp.setText(room.getTimestamp());
 
@@ -205,14 +203,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private void applyReadStatus(ViewHolder holder, ChatRoom room) {
         if (room.isRead()) {
             holder.title.setTypeface(null, Typeface.NORMAL);
-            holder.creator.setTypeface(null, Typeface.NORMAL);
             holder.title.setTextColor(ContextCompat.getColor(mContext, R.color.subject));
-            holder.creator.setTextColor(ContextCompat.getColor(mContext,R.color.subject ));
         } else {
             holder.title.setTypeface(null, Typeface.BOLD);
-            holder.creator.setTypeface(null, Typeface.BOLD);
             holder.title.setTextColor(ContextCompat.getColor(mContext, R.color.title));
-            holder.creator.setTextColor(ContextCompat.getColor(mContext, R.color.title));
         }
     }
 

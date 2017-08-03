@@ -47,9 +47,7 @@ public class ChatActivity extends AppCompatActivity {
     public static final String MESSAGES_CHILD = "messages";
     public static final String ANONYMOUS = "anonymous";
     private static final int REQUEST_IMAGE = 2;
-    private static final String MESSAGE_SENT_EVENT = "message_sent";
-    private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
-    private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
+
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -87,8 +85,8 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         endPoint = intent.getStringExtra("endPoint");
+        photoUrl = intent.getStringExtra("picture");
         getSupportActionBar().setTitle(title);
-        Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -97,9 +95,6 @@ public class ChatActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
             username = firebaseUser.getEmail();
-            if (firebaseUser.getPhotoUrl() != null) {
-                photoUrl = firebaseUser.getPhotoUrl().toString();
-            }
         }
 
         progressBar = findViewById(R.id.progressBar);

@@ -161,6 +161,7 @@ public class TopicFragment extends Fragment implements RecyclerAdapter.RecyclerA
             Intent intent = new Intent(getActivity(), ChatActivity.class);
             intent.putExtra("title", room.getTitle());
             intent.putExtra("endPoint", "topics");
+            intent.putExtra("picture", room.getPicture());
             startActivity(intent);
         }
     }

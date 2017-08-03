@@ -4,7 +4,6 @@ package com.mhassaniqbal22.gchat.model;
 public class ChatRoom {
     private String title;
     private String id;
-    private String creator;
     private String message;
     private String timestamp;
     private String picture;
@@ -29,14 +28,6 @@ public class ChatRoom {
 
     public void setTitle(String name) {
         this.title = name;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 
     public String getMessage() {
