@@ -1,27 +1,28 @@
 package com.mhassaniqbal22.gchat.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.inputmethodservice.Keyboard;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,9 +55,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Message, MessageViewHolder> firebaseAdapter;
 
     private EditText inputMessage;
-    private FloatingActionButton fabSend;
-    private ProgressBar progressBar;
-    private ImageView addMessageImageView;
+    private Button btnSend;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -85,7 +84,6 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         endPoint = intent.getStringExtra("endPoint");
-        photoUrl = intent.getStringExtra("picture");
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -95,14 +93,15 @@ public class ChatActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
             username = firebaseUser.getEmail();
+            if (firebaseUser.getPhotoUrl() != null ){
+                photoUrl = firebaseUser.getPhotoUrl().toString();
+            }
         }
 
-        progressBar = findViewById(R.id.progressBar);
 
         recyclerView = findViewById(R.id.recycler_view);
 
         linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -125,7 +124,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(final MessageViewHolder viewHolder,
                                               Message message, int position) {
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
                 if (message.getText() != null) {
                     viewHolder.messageTextView.setText(message.getText());
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
@@ -188,6 +186,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(firebaseAdapter);
 
@@ -200,9 +199,9 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() > 0) {
-                    fabSend.setEnabled(true);
+                    btnSend.setEnabled(true);
                 } else {
-                    fabSend.setEnabled(false);
+                    btnSend.setEnabled(false);
                 }
             }
 
@@ -211,25 +210,18 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        addMessageImageView = findViewById(R.id.addMessageImageView);
-        addMessageImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_IMAGE);
-            }
-        });
-
-        fabSend = findViewById(R.id.send);
-        fabSend.setOnClickListener(new View.OnClickListener() {
+        btnSend = findViewById(R.id.btn_send);
+        btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Message message = new Message(inputMessage.getText().toString(), username,
                         photoUrl, null);
                 databaseReference.child(MESSAGES_CHILD).child(endPoint).child(title).push().setValue(message);
                 inputMessage.setText("");
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         });
 
