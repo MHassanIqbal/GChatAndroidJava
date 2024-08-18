@@ -83,7 +83,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.chat_room_list, parent, false);
+                .inflate(R.layout.chat_room_list, parent,    false);
 
         return new ViewHolder(itemView);
     }

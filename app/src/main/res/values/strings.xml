@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">G Chat</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_search">Search</string>
+    <string name="logo">Logo</string>
+    <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="Not_a_member">Not a Member? <b>Sign up</b></string>
+    <string name="name">Name</string>
+    <string name="confirm_pass">Confirm Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_a_member">Already a Member? <b>Sign in</b></string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_email">This email is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_confirm_password">Password dose not match</string>
+    <string name="error_invalid_name">Only alphabet or number allowed</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="loading">Loading</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="adding_user">Adding User to the Database...</string>
+    <string name="create_new_topic">Create New Topic</string>
+    <string name="title">Title</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="creating">Creating...</string>
+    <string name="creating_topic">Creating Topic...</string>
+    <string name="icon_profile">Icon Profile</string>
+    <string name="icon_delete">Icon Done</string>
+    <string name="action_delete">Delete</string>
+    <string name="type_a_msg"><i>Type a message</i></string>
+    <string name="action_info">Info</string>
+    <string name="send">Send</string>
+</resources>
